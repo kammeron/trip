@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>View Trip</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+</head>
+<body>
+	<nav>
+		<a href="/dashboard">Home</a>
+		<a href="/logout">Logout</a>
+	</nav>
+	<div>
+		<h1>{{trips.name}}</h1>
+		<p>Planned by {{trips.uploaded_by.first_name}} {{trips.uploaded_by.last_name}}</p>
+		<p>Plan: {{trips.plan}}</p>
+		<p>Travel Date Start: {{trips.start}}</p>
+		<p>Travel Date End: {{trips.end}}</p>
+	</div>
+	<div>
+		<h1>Other Users Joining the Trip:</h1>
+		{% for x in trips.join.all %}
+		{% if trips.uploaded_by_id != x.id %}
+		<p>{{x.first_name}} {{x.last_name}}</p>
+		{% endif %}
+		{% endfor %}
+	</div>
+</body>
+</html>

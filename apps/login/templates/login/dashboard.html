@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Travel Dashboard</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+</head>
+<body>
+	<nav>
+		<h3>Welcome, {{ request.session.user_first_name }}!</h3>
+		<a href="/addtrip">Add a trip</a>
+		<a href="/logout">Logout</a>
+	</nav>
+	<div>
+		<h2>Your Trip Schedules</h2>
+		<table>
+			<tr>
+				<th>Name</th>
+				<th>Travel Start Date</th>
+				<th>Travel End Date</th>
+				<th>Plan</th>
+				<th>Action</th>
+			</tr>
+			{% for trip in this_user.join.all %}
+			<tr>
+				<td><a href="/trip/{{trip.id}}">{{trip.name}}</a></td>
+				<td>{{trip.start}}</td>
+				<td>{{trip.end}}</td>
+				<td>{{trip.plan}}</td>
+				<td><a href="/cancel_join/{{trip.id}}">Cancel</a></td>
+				{% if trip.uploaded_by_id == request.session.user_id %}
+				<td><a href="/delete_trip/{{trip.id}}">Delete</a></td>
+				{% endif %}
+			</tr>
+			{% endfor %}
+		</table>
+	</div>
+	<div>
+		<h2>Other User's Travel Plans</h2>
+		<table>
+			<tr>
+				<th>Name</th>
+				<th>Travel Start Date</th>
+				<th>Travel End Date</th>
+				<th>Do you want to join?</th>
+			</tr>
+			<!-- {% for trip in trips %}
+			{% if trip.join.all.trip.id != this_user.id %}
+			<tr>
+				<td><a href="/trip/{{trip.id}}">{{trip.name}}</a></td>
+				<td>{{trip.start}}</td>
+				<td>{{trip.end}}</td>
+				<td><a href="/join_process/{{trip.id}}">Join</a></td>
+			</tr>
+			{% endif %}
+			{% endfor %}
+			<tr><th>--------</th></tr> -->
+			{% for trip in trips %}
+			{% if trip.joined_id != this_user.id %}
+			<tr>
+				<td><a href="/trip/{{trip.id}}">{{trip.name}}</a></td>
+				<td>{{trip.start}}</td>
+				<td>{{trip.end}}</td>
+				<td><a href="/join_process/{{trip.id}}">Join</a></td>
+			</tr>
+			{% endif %}
+			{% endfor %}
+		</table>
+	</div>
+</body>
+</html>
